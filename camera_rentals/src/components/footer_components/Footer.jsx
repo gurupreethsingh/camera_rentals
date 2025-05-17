@@ -76,6 +76,32 @@ const Footer = () => {
               </a>
             </div>
           </div>
+          <div>
+            <h3 className="text-white text-lg font-semibold mb-4">Address</h3>
+            <ul className="space-y-2">
+              <li>
+                <a href="#" className="hover:text-white transition">
+                  CAMERA RENTALS
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="hover:text-white transition"
+                >
+                  2nd Cross, 3rd Main, Hesaraghatta Road,
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="hover:text-white transition"
+                >
+                  Bangalore -560057
+                </a>
+              </li>
+            </ul>
+          </div>
 
           {/* Subscription Form */}
           {/* <div>
