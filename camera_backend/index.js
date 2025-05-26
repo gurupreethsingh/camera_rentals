@@ -1,12 +1,26 @@
+// 1 import all libraries.
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
-const jwt = require("jsonwebtoken"); // For token verification
 const path = require("path");
-const fs = require("fs");
-const bcrypt = require("bcrypt");
+
+const userRoutes = require("./routes/UserRoutes");
+const activityRoutes = require("./routes/ActivityRoutes");
+const entityCountRoutes = require("./routes/EntityCountRoutes");
+const categoryRoutes = require("./routes/CategoryRoutes");
+const subCategoryRoutes = require("./routes/SubCategoryRoutes");
+const outletRoutes = require("./routes/OutletRoutes");
+const vendorRoutes = require("./routes/VendorRoutes");
+const productRoutes = require("./routes/ProductRoutes");
+const cartRoutes = require("./routes/cartRoutes");
+const orderRoutes = require("./routes/OrderRoutes");
+const wishlistRoutes = require("./routes/WishlistRoutes");
+const addressRoutes = require("./routes/AddressRoutes");
+const contactRoutes = require("./routes/ContactRoutes");
+const rentRoutes = require("./routes/RentRoutes");
+const venueRoutes = require("./routes/VenueRoutes");
 
 // 2. give a name to your api backend. app = express()
 dotenv.config();
@@ -22,7 +36,24 @@ app.use(
 app.use(express.json()); // Add this middleware to parse JSON request body
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+app.use("/api", userRoutes);
+app.use("/api", activityRoutes);
+app.use("/api", categoryRoutes);
+app.use("/api", outletRoutes);
+app.use("/api", vendorRoutes);
+app.use("/api", entityCountRoutes);
+app.use("/api", subCategoryRoutes);
+app.use("/api", productRoutes);
+app.use("/api", cartRoutes);
+app.use("/api", orderRoutes);
+app.use("/api/wishlist", wishlistRoutes);
+app.use("/api", addressRoutes);
+app.use("/api", contactRoutes);
+app.use("/api", rentRoutes);
+app.use("/api", venueRoutes);
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -33,8 +64,10 @@ app.use((req, res, next) => {
   next();
 });
 
+// 8. port number 3012
 const PORT = process.env.PORT;
 
+// 9 . connect to mongodb.
 mongoose
   .connect("mongodb://127.0.0.1:27017/camera_rentals")
   .then(() => {

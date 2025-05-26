@@ -4,13 +4,15 @@ import { FaFacebookF, FaTwitter, FaGithub, FaLinkedinIn } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-gray-300 pt-12">
+    <footer className="bg-gray-100 text-gray-900 pt-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Top Section */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           {/* Company Info */}
           <div>
-            <h3 className="text-white text-lg font-semibold mb-4">Company</h3>
+            <h3 className="text-gray-900 text-lg font-semibold mb-4">
+              Company
+            </h3>
             <ul className="space-y-2">
               <li>
                 <a href="/about-us" className="hover:text-white transition">
@@ -32,7 +34,9 @@ const Footer = () => {
 
           {/* Support */}
           <div>
-            <h3 className="text-white text-lg font-semibold mb-4">Support</h3>
+            <h3 className="text-gray-900 text-lg font-semibold mb-4">
+              Support
+            </h3>
             <ul className="space-y-2">
               <li>
                 <a href="/help-center" className="hover:text-white transition">
@@ -60,7 +64,9 @@ const Footer = () => {
 
           {/* Social Media */}
           <div>
-            <h3 className="text-white text-lg font-semibold mb-4">Follow Us</h3>
+            <h3 className="text-gray-900 text-lg font-semibold mb-4">
+              Follow Us
+            </h3>
             <div className="flex space-x-4">
               <a href="#" className="hover:text-white transition">
                 <FaFacebookF />
@@ -77,7 +83,9 @@ const Footer = () => {
             </div>
           </div>
           <div>
-            <h3 className="text-white text-lg font-semibold mb-4">Address</h3>
+            <h3 className="text-gray-900 text-lg font-semibold mb-4">
+              Address
+            </h3>
             <ul className="space-y-2">
               <li>
                 <a href="#" className="hover:text-white transition">
@@ -85,18 +93,12 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a
-                  href="#"
-                  className="hover:text-white transition"
-                >
+                <a href="#" className="hover:text-white transition">
                   2nd Cross, 3rd Main, Hesaraghatta Road,
                 </a>
               </li>
               <li>
-                <a
-                  href="#"
-                  className="hover:text-white transition"
-                >
+                <a href="#" className="hover:text-white transition">
                   Bangalore -560057
                 </a>
               </li>
@@ -111,11 +113,13 @@ const Footer = () => {
         </div>
 
         {/* Bottom Section */}
-        <div className="border-t border-gray-700 pt-6 flex flex-col md:flex-row justify-between items-center">
+        <div className="border-t border-gray-700 p-6 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm">
             &copy; 2025 Ecoders, Inc. All rights reserved.
           </p>
-          <p className="text-sm mt-4 md:mt-0">Made with ❤️ in Bengaluru</p>
+          <p className="text-sm mt-4 md:mt-0">
+            Developed And Maintained By Ecoders Bengaluru
+          </p>
         </div>
       </div>
     </footer>

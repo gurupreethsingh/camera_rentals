@@ -1,0 +1,370 @@
+Here are some complete sample camera product entries written to match your `ProductModel.js` format — you can insert them as MongoDB documents using Mongoose or directly into your database for development and testing:
+
+---
+
+### ✅ **1. Canon EOS R5 Mirrorless Camera**
+
+```js
+{
+  product_name: "Canon EOS R5 Mirrorless Camera",
+  slug: "canon-eos-r5-mirrorless-camera",
+  product_image: "uploads/products/canon_r5_main.jpg",
+  all_product_images: [
+    "uploads/products/canon_r5_1.jpg",
+    "uploads/products/canon_r5_2.jpg",
+    "uploads/products/canon_r5_3.jpg"
+  ],
+  description: "The Canon EOS R5 is a full-frame mirrorless camera with a 45MP sensor, up to 8K video recording, in-body stabilization, and incredible autofocus performance.",
+  sku: "CAM-CANON-R5",
+  display_price: 419999,
+  selling_price: 389999,
+  brand: "Canon",
+  barcode: "8901234567890",
+  stock: 12,
+  total_products_sold: 45,
+  dimensions: { length: 14, width: 10, height: 9 },
+  color: "Black",
+  material: "Magnesium Alloy",
+  ratings: 5,
+  avg_rating: 4.8,
+  total_reviews: 58,
+  tags: ["mirrorless", "canon", "camera", "eos", "4k", "8k"],
+  section_to_appear: ["all_products", "top_deals", "featured", "recommended"],
+  featured: true,
+  is_new_arrival: false,
+  is_trending: true,
+  availability_status: true,
+  discount: 7,
+  min_purchase_qty: 1,
+  max_purchase_qty: 3,
+  delivery_time_estimate: "3–5 business days",
+  replacement_policy: "7-day replacement only for manufacturing defects",
+  origin_country: "Japan",
+  pricing_rules: [],
+  campaign: {
+    name: "Summer Fest 2024",
+    discount: 5000,
+    start_date: new Date("2024-04-01"),
+    end_date: new Date("2024-04-30")
+  },
+  outlet: ObjectId("6809f7f0ed9f36edb58306b4"),
+  vendor: ObjectId("6809f7f0ed9f36edb58306c5"),
+  reviews: [],
+  orders: [],
+  purchases: [],
+  returns: [],
+  wishlist_users: [],
+  questions: [],
+  related_products: [],
+  bundles: [],
+  meta_title: "Canon EOS R5 Mirrorless 8K Camera",
+  meta_description: "Canon EOS R5 with 45MP sensor, 8K recording and in-body stabilization. Ideal for professionals.",
+  createdBy: ObjectId("admin_user_id"),
+  updatedBy: ObjectId("admin_user_id"),
+  createdAt: new Date(),
+  updatedAt: new Date()
+}
+```
+
+---
+
+### ✅ **2. Sony Alpha A7 IV Full-Frame Camera**
+
+```js
+{
+  product_name: "Sony Alpha A7 IV Mirrorless Camera",
+  slug: "sony-alpha-a7-iv-mirrorless-camera",
+  product_image: "uploads/products/sony_a7iv_main.jpg",
+  all_product_images: [
+    "uploads/products/sony_a7iv_1.jpg",
+    "uploads/products/sony_a7iv_2.jpg"
+  ],
+  description: "Sony Alpha A7 IV offers a 33MP BSI CMOS sensor, Real-time Eye AF, and 4K 60p video. Ideal for hybrid creators.",
+  sku: "CAM-SONY-A7IV",
+  display_price: 289999,
+  selling_price: 269999,
+  brand: "Sony",
+  barcode: "8901234567891",
+  stock: 8,
+  total_products_sold: 30,
+  dimensions: { length: 13, width: 9.6, height: 8.2 },
+  color: "Black",
+  material: "Magnesium Alloy",
+  ratings: 5,
+  avg_rating: 4.7,
+  total_reviews: 43,
+  tags: ["sony", "mirrorless", "alpha", "a7", "4k"],
+  section_to_appear: ["all_products", "new_arrivals", "recommended"],
+  featured: true,
+  is_new_arrival: true,
+  is_trending: false,
+  availability_status: true,
+  discount: 6,
+  min_purchase_qty: 1,
+  max_purchase_qty: 2,
+  delivery_time_estimate: "2–4 business days",
+  replacement_policy: "10-day return policy",
+  origin_country: "Japan",
+  pricing_rules: [],
+  campaign: null,
+  outlet: ObjectId("6809f7f0ed9f36edb58306b4"),
+  vendor: ObjectId("6809f7f0ed9f36edb58306c5"),
+  reviews: [],
+  orders: [],
+  purchases: [],
+  returns: [],
+  wishlist_users: [],
+  questions: [],
+  related_products: [],
+  bundles: [],
+  meta_title: "Sony A7 IV Full-Frame Mirrorless Camera",
+  meta_description: "Explore Sony Alpha A7 IV with 33MP sensor, 4K video and real-time tracking. Great for photos & video.",
+  createdBy: ObjectId("admin_user_id"),
+  updatedBy: ObjectId("admin_user_id"),
+  createdAt: new Date(),
+  updatedAt: new Date()
+}
+```
+
+---
+
+### ✅ **3. Nikon Z6 II Mirrorless Camera with Kit Lens**
+
+```js
+{
+  product_name: "Nikon Z6 II Mirrorless Camera with 24-70mm Lens",
+  slug: "nikon-z6-ii-mirrorless-kit-lens",
+  product_image: "uploads/products/nikon_z6ii_main.jpg",
+  all_product_images: ["uploads/products/nikon_z6ii_1.jpg"],
+  description: "Nikon Z6 II features 24.5MP sensor, dual card slots, 4K UHD video, and improved AF. Great for professionals.",
+  sku: "CAM-NIKON-Z6II",
+  display_price: 214999,
+  selling_price: 199999,
+  brand: "Nikon",
+  barcode: "8901234567892",
+  stock: 10,
+  total_products_sold: 25,
+  dimensions: { length: 13.4, width: 10, height: 9.5 },
+  color: "Black",
+  material: "Alloy",
+  ratings: 4,
+  avg_rating: 4.5,
+  total_reviews: 32,
+  tags: ["nikon", "mirrorless", "z6", "4k", "dslr"],
+  section_to_appear: ["all_products", "featured", "most_viewed"],
+  featured: true,
+  is_new_arrival: false,
+  is_trending: true,
+  availability_status: true,
+  discount: 7,
+  min_purchase_qty: 1,
+  max_purchase_qty: 5,
+  delivery_time_estimate: "5–7 business days",
+  replacement_policy: "Replacement available within 7 days",
+  origin_country: "Thailand",
+  pricing_rules: [],
+  campaign: {
+    name: "New Year Deal",
+    discount: 8000,
+    start_date: new Date("2024-12-25"),
+    end_date: new Date("2025-01-05")
+  },
+  outlet: ObjectId("6809f7f0ed9f36edb58306b4"),
+  vendor: ObjectId("6809f7f0ed9f36edb58306c5"),
+  reviews: [],
+  orders: [],
+  purchases: [],
+  returns: [],
+  wishlist_users: [],
+  questions: [],
+  related_products: [],
+  bundles: [],
+  meta_title: "Nikon Z6 II Mirrorless with 24-70mm Kit Lens",
+  meta_description: "Professional Nikon Z6 II with full-frame sensor, 4K video, and kit lens. Ideal for content creators.",
+  createdBy: ObjectId("admin_user_id"),
+  updatedBy: ObjectId("admin_user_id"),
+  createdAt: new Date(),
+  updatedAt: new Date()
+}
+```
+
+---
+
+
+
+---
+
+### ✅ Camera Categories and Subcategories
+
+#### 1. **Digital Cameras**
+
+* Mirrorless Cameras
+* DSLR Cameras
+* Compact Point & Shoot
+* Bridge Cameras
+* Superzoom Cameras
+
+#### 2. **Action & Adventure Cameras**
+
+* GoPro Series
+* Waterproof Cameras
+* Helmet Cameras
+* Drone Cameras
+* 360° Action Cameras
+
+#### 3. **Professional Cameras**
+
+* Full-Frame Mirrorless
+* Medium Format Cameras
+* Cinema Cameras
+* Studio Cameras
+* Broadcast Cameras
+
+#### 4. **Camera Accessories**
+
+* Lenses
+* Tripods & Gimbals
+* Camera Bags
+* Memory Cards
+* Battery Packs
+
+#### 5. **Security & Surveillance Cameras**
+
+* Indoor IP Cameras
+* Outdoor Bullet Cameras
+* PTZ (Pan Tilt Zoom) Cameras
+* Wireless CCTV Kits
+* Doorbell Cameras
+
+---
+
+### ✅ 5 Sample Camera Products (with category & subcategory mapping)
+
+---
+
+#### 📸 **1. Sony Alpha ZV-E10 Mirrorless Vlogging Camera**
+
+```js
+{
+  product_name: "Sony Alpha ZV-E10 Mirrorless Vlogging Camera",
+  slug: "sony-zv-e10-mirrorless-vlog-camera",
+  category: ObjectId("CATEGORY_ID_DIGITAL_CAMERAS"),
+  subcategory: ObjectId("SUBCATEGORY_ID_MIRRORLESS"),
+  product_image: "uploads/products/zve10_main.jpg",
+  all_product_images: [
+    "uploads/products/zve10_1.jpg",
+    "uploads/products/zve10_2.jpg"
+  ],
+  description: "Sony ZV-E10 is designed for vloggers with a 24.2MP sensor, flip-out screen, real-time eye autofocus, and excellent audio capture.",
+  sku: "CAM-SONY-ZVE10",
+  display_price: 74999,
+  selling_price: 69999,
+  brand: "Sony",
+  stock: 15,
+  tags: ["sony", "mirrorless", "vlogging", "zve10"],
+  is_trending: true
+}
+```
+
+---
+
+#### 📸 **2. GoPro HERO12 Black - Waterproof 5.3K Action Camera**
+
+```js
+{
+  product_name: "GoPro HERO12 Black - Waterproof Action Camera",
+  slug: "gopro-hero12-action-camera",
+  category: ObjectId("CATEGORY_ID_ACTION_ADVENTURE_CAMERAS"),
+  subcategory: ObjectId("SUBCATEGORY_ID_GOPRO_SERIES"),
+  product_image: "uploads/products/gopro12_main.jpg",
+  all_product_images: [
+    "uploads/products/gopro12_1.jpg",
+    "uploads/products/gopro12_2.jpg"
+  ],
+  description: "GoPro HERO12 Black supports 5.3K video, 27MP photos, HyperSmooth 6.0, and is waterproof up to 33ft — perfect for adventure seekers.",
+  sku: "CAM-GOPRO-H12B",
+  display_price: 54999,
+  selling_price: 49999,
+  brand: "GoPro",
+  stock: 25,
+  tags: ["gopro", "action", "waterproof", "hero12"],
+  is_new_arrival: true
+}
+```
+
+---
+
+#### 📸 **3. Canon EOS R3 Full-Frame Professional Mirrorless Camera**
+
+```js
+{
+  product_name: "Canon EOS R3 Full-Frame Professional Camera",
+  slug: "canon-eos-r3-fullframe-camera",
+  category: ObjectId("CATEGORY_ID_PROFESSIONAL_CAMERAS"),
+  subcategory: ObjectId("SUBCATEGORY_ID_FULLFRAME"),
+  product_image: "uploads/products/eosr3_main.jpg",
+  all_product_images: [
+    "uploads/products/eosr3_1.jpg",
+    "uploads/products/eosr3_2.jpg"
+  ],
+  description: "EOS R3 is a flagship mirrorless camera with a stacked CMOS sensor, eye-control AF, 30 fps RAW burst, and 6K RAW video output.",
+  sku: "CAM-CANON-R3",
+  display_price: 519999,
+  selling_price: 489999,
+  brand: "Canon",
+  stock: 5,
+  tags: ["canon", "r3", "full-frame", "professional"],
+  featured: true
+}
+```
+
+---
+
+#### 📸 **4. Nikon NIKKOR Z 24-70mm f/2.8 S Lens**
+
+```js
+{
+  product_name: "Nikon NIKKOR Z 24-70mm f/2.8 S Lens",
+  slug: "nikon-z-24-70-lens",
+  category: ObjectId("CATEGORY_ID_CAMERA_ACCESSORIES"),
+  subcategory: ObjectId("SUBCATEGORY_ID_LENSES"),
+  product_image: "uploads/products/nikon_2470_main.jpg",
+  all_product_images: [
+    "uploads/products/nikon_2470_1.jpg"
+  ],
+  description: "A versatile zoom lens ideal for portraits, landscapes, and video — sharp edge-to-edge with robust construction for professionals.",
+  sku: "ACC-NIKON-Z2470",
+  display_price: 199999,
+  selling_price: 179999,
+  brand: "Nikon",
+  stock: 20,
+  tags: ["lens", "zoom", "nikkor", "z-mount"]
+}
+```
+
+---
+
+#### 📸 **5. TP-Link Tapo C200 Indoor Pan Tilt Security Camera**
+
+```js
+{
+  product_name: "TP-Link Tapo C200 Indoor Pan/Tilt Wi-Fi Camera",
+  slug: "tplink-tapo-c200-indoor-camera",
+  category: ObjectId("CATEGORY_ID_SECURITY_CAMERAS"),
+  subcategory: ObjectId("SUBCATEGORY_ID_PTZ"),
+  product_image: "uploads/products/tapo_c200_main.jpg",
+  all_product_images: [
+    "uploads/products/tapo_c200_1.jpg"
+  ],
+  description: "Full HD 1080p camera with pan/tilt support, 2-way audio, night vision, and motion detection. Works with Alexa & Google Assistant.",
+  sku: "SEC-TPLINK-C200",
+  display_price: 3499,
+  selling_price: 2999,
+  brand: "TP-Link",
+  stock: 50,
+  tags: ["tplink", "security", "indoor", "wifi"],
+  is_new_arrival: true
+}
+```
+
+---
