@@ -25,147 +25,6 @@ const productStorage = multer.diskStorage({
 const productUpload = multer({ storage: productStorage });
 exports.productUpload = productUpload;
 
-// exports.createProduct = async (req, res) => {
-//   try {
-//     // Validation: vendor and outlet must be present
-//     if (!req.body.vendor || !req.body.outlet) {
-//       return res
-//         .status(400)
-//         .json({ message: "Vendor and Outlet are required." });
-//     }
-
-//     // Remove empty optional fields
-//     if (req.body.subcategory === "") delete req.body.subcategory;
-//     if (req.body.category === "") delete req.body.category;
-
-//     const {
-//       product_name,
-//       slug,
-//       description,
-//       sku,
-//       selling_price,
-//       display_price,
-//       category,
-//       subcategory,
-//       brand,
-//       barcode,
-//       stock,
-//       warehouse_stock,
-//       total_products_sold,
-//       outlet,
-//       dimensions,
-//       color,
-//       material,
-//       ratings,
-//       avg_rating,
-//       total_reviews,
-//       tags,
-//       section_to_appear,
-//       featured,
-//       is_new_arrival,
-//       is_trending,
-//       availability_status,
-//       discount,
-//       min_purchase_qty,
-//       max_purchase_qty,
-//       delivery_time_estimate,
-//       replacement_policy,
-//       origin_country,
-//       pricing_rules,
-//       campaign,
-//       vendor,
-//       reviews,
-//       orders,
-//       purchases,
-//       returns,
-//       wishlist_users,
-//       questions,
-//       related_products,
-//       bundles,
-//       vector_embedding,
-//       popularity_score,
-//       meta_title,
-//       meta_description,
-//       createdBy,
-//       updatedBy,
-//       version,
-//       admin_notes,
-//     } = req.body;
-
-//     const mainImage =
-//       req.files["product_image"]?.[0]?.path.replace(/\\/g, "/") || "";
-//     const galleryImages =
-//       req.files["all_product_images"]?.map((f) => f.path.replace(/\\/g, "/")) ||
-//       [];
-
-//     const newProduct = new Product({
-//       product_name,
-//       slug,
-//       description,
-//       sku,
-//       selling_price,
-//       display_price,
-//       product_image: mainImage,
-//       all_product_images: galleryImages,
-//       category,
-//       subcategory,
-//       brand,
-//       barcode,
-//       stock,
-//       warehouse_stock,
-//       total_products_sold,
-//       outlet,
-//       dimensions,
-//       color,
-//       material,
-//       ratings,
-//       avg_rating,
-//       total_reviews,
-//       tags,
-//       section_to_appear,
-//       featured,
-//       is_new_arrival,
-//       is_trending,
-//       availability_status,
-//       discount,
-//       min_purchase_qty,
-//       max_purchase_qty,
-//       delivery_time_estimate,
-//       replacement_policy,
-//       origin_country,
-//       pricing_rules,
-//       campaign,
-//       vendor,
-//       reviews,
-//       orders,
-//       purchases,
-//       returns,
-//       wishlist_users,
-//       questions,
-//       related_products,
-//       bundles,
-//       vector_embedding,
-//       popularity_score,
-//       meta_title,
-//       meta_description,
-//       createdBy,
-//       updatedBy,
-//       version,
-//       admin_notes,
-//     });
-
-//     const saved = await newProduct.save();
-//     res.status(201).json(saved);
-//   } catch (error) {
-//     console.error("Create Product Error:", error);
-//     if (error.code === 11000 && error.keyPattern?.sku) {
-//       return res
-//         .status(400)
-//         .json({ message: "SKU already exists. Please use a unique SKU." });
-//     }
-//     res.status(500).json({ message: "Failed to create product." });
-//   }
-// };
 
 exports.createProduct = async (req, res) => {
   try {
@@ -524,21 +383,134 @@ exports.updateProductById = async (req, res) => {
   }
 };
 
+// exports.deleteProductById = async (req, res) => {
+//   try {
+//     const deleted = await Product.findByIdAndUpdate(
+//       req.params.id,
+//       { isDeleted: true, updatedAt: Date.now() },
+//       { new: true }
+//     );
+//     if (!deleted)
+//       return res.status(404).json({ message: "Product not found." });
+//     res.status(200).json({ message: "Product deleted." });
+//   } catch (error) {
+//     console.error("Delete Product Error:", error);
+//     res.status(500).json({ message: "Failed to delete product." });
+//   }
+// };
+
+
 exports.deleteProductById = async (req, res) => {
   try {
-    const deleted = await Product.findByIdAndUpdate(
-      req.params.id,
-      { isDeleted: true, updatedAt: Date.now() },
-      { new: true }
-    );
-    if (!deleted)
-      return res.status(404).json({ message: "Product not found." });
-    res.status(200).json({ message: "Product deleted." });
+    const product = await Product.findById(req.params.id);
+    if (!product) return res.status(404).json({ message: "Product not found." });
+
+    const imageFields = [
+      "product_image",
+      "product_image_1",
+      "product_image_2",
+      "product_image_3",
+      "product_image_4",
+      "product_image_5",
+      "product_image_6",
+      "product_image_7",
+      "product_image_8",
+      "product_image_9",
+      "product_image_10",
+    ];
+
+    imageFields.forEach((field) => {
+      const imagePath = product[field];
+      if (imagePath) {
+        const absolutePath = path.join(__dirname, "..", imagePath);
+        fs.unlink(absolutePath, (err) => {
+          if (err && err.code !== "ENOENT") {
+            console.error(`Failed to delete ${field}:`, err.message);
+          } else {
+            console.log(`Deleted image: ${absolutePath}`);
+          }
+        });
+      }
+    });
+
+    await Product.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: "Product and images deleted permanently." });
   } catch (error) {
     console.error("Delete Product Error:", error);
     res.status(500).json({ message: "Failed to delete product." });
   }
 };
+
+
+exports.deleteProductImage = async (req, res) => {
+  const { id } = req.params;
+  const { imageKey } = req.body;
+
+  try {
+    const product = await Product.findById(id);
+    if (!product || !product[imageKey]) {
+      return res.status(404).json({ message: "Image or product not found" });
+    }
+
+    const imagePath = product[imageKey];
+    const fullPath = path.join(__dirname, "..", imagePath);
+
+    // Delete the file
+    if (fs.existsSync(fullPath)) {
+      fs.unlinkSync(fullPath);
+    }
+
+    // Remove image path from DB
+    product[imageKey] = undefined;
+    await product.save();
+
+    res.status(200).json({ message: "Image deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting image:", error);
+    res.status(500).json({ message: "Failed to delete image" });
+  }
+};
+
+// DELETE individual product image by field name (e.g. product_image_1)
+exports.deleteProductImageByKey = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { imageKey } = req.body;
+
+    if (!imageKey || !id) {
+      return res.status(400).json({ error: "Missing product ID or imageKey" });
+    }
+
+    const product = await Product.findById(id);
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+
+    const imagePath = product[imageKey];
+    if (!imagePath) {
+      return res.status(404).json({ error: "Image not found for the given key" });
+    }
+
+    // Delete the physical image file from disk
+    const fs = require("fs");
+    const path = require("path");
+    const fullPath = path.join(__dirname, "..", imagePath);
+    if (fs.existsSync(fullPath)) {
+      fs.unlinkSync(fullPath);
+    }
+
+    // Remove the image field from product
+    product[imageKey] = undefined;
+    await product.save();
+
+    return res.status(200).json({ message: "Image deleted successfully." });
+  } catch (err) {
+    console.error("Error deleting product image:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+
 
 exports.countAllProducts = async (req, res) => {
   try {

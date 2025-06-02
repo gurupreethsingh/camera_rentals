@@ -63,8 +63,15 @@ router.put(
   ProductController.updateProductById
 );
 
+router.put(
+  "/delete-product-image/:id",
+  ProductController.deleteProductImageByKey
+);
+
 // ========== DELETE ==========
 router.delete("/delete-product/:id", ProductController.deleteProductById);
+
+router.put("/delete-product-image/:id", ProductController.deleteProductImage);
 
 // ========== COUNTS ==========
 router.get("/count-all-products", ProductController.countAllProducts);

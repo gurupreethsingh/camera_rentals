@@ -368,3 +368,111 @@ Here are some complete sample camera product entries written to match your `Prod
 ```
 
 ---
+
+
+
+Here are **6 ready-to-use camera product entries** you can directly input into your frontend form. Each product includes realistic details aligned with your form fields.
+
+---
+
+### ✅ 1. **Canon EOS R10 Mirrorless Camera**
+
+* **Slug**: canon-eos-r10
+* **Description**: 24.2MP APS-C mirrorless camera with Dual Pixel CMOS AF II, 4K 60p video, and DIGIC X processor.
+* **SKU**: CANONR10
+* **Selling Price**: 81999
+* **Display Price**: 94999
+* **Brand**: Canon
+* **Barcode**: 8901234567001
+* **Stock**: 15
+* **Color**: Black
+* **Material**: Magnesium Alloy
+* **Tags**: camera,mirrorless,canon,4k
+
+---
+
+### ✅ 2. **Sony Alpha ZV-E10 Vlog Camera**
+
+* **Slug**: sony-alpha-zv-e10
+* **Description**: Interchangeable-lens vlog camera with 4K video, flip-out screen, and real-time tracking autofocus.
+* **SKU**: SONYZVE10
+* **Selling Price**: 67990
+* **Display Price**: 74990
+* **Brand**: Sony
+* **Barcode**: 8901234567002
+* **Stock**: 25
+* **Color**: White
+* **Material**: Polycarbonate
+* **Tags**: sony,vlog,camera,4k
+
+---
+
+### ✅ 3. **Nikon Z30 Mirrorless Camera**
+
+* **Slug**: nikon-z30
+* **Description**: Compact APS-C camera designed for content creators, 20.9MP sensor, and 4K UHD video.
+* **SKU**: NIKONZ30
+* **Selling Price**: 59990
+* **Display Price**: 65990
+* **Brand**: Nikon
+* **Barcode**: 8901234567003
+* **Stock**: 10
+* **Color**: Black
+* **Material**: Plastic Body
+* **Tags**: nikon,camera,mirrorless,vlogging
+
+---
+
+### ✅ 4. **GoPro HERO12 Black Action Camera**
+
+* **Slug**: gopro-hero12
+* **Description**: Waterproof action camera with 5.3K video, HyperSmooth 6.0, and improved battery life.
+* **SKU**: GOPRO12
+* **Selling Price**: 44990
+* **Display Price**: 51990
+* **Brand**: GoPro
+* **Barcode**: 8901234567004
+* **Stock**: 30
+* **Color**: Black
+* **Material**: Durable Polymer
+* **Tags**: gopro,action,camera,waterproof
+
+---
+
+### ✅ 5. **DJI Osmo Pocket 3**
+
+* **Slug**: dji-osmo-pocket-3
+* **Description**: 3-axis stabilized 4K camera with touchscreen and tracking, perfect for creators on-the-go.
+* **SKU**: DJI3POCKET
+* **Selling Price**: 38990
+* **Display Price**: 42990
+* **Brand**: DJI
+* **Barcode**: 8901234567005
+* **Stock**: 20
+* **Color**: Gray
+* **Material**: Plastic & Metal
+* **Tags**: dji,pocket,camera,4k
+
+---
+
+### ✅ 6. **Insta360 X3 360° Camera**
+
+* **Slug**: insta360-x3
+* **Description**: 360° action camera with 5.7K video, FlowState stabilization, and invisible selfie stick mode.
+* **SKU**: INSTA360X3
+* **Selling Price**: 47990
+* **Display Price**: 53990
+* **Brand**: Insta360
+* **Barcode**: 8901234567006
+* **Stock**: 12
+* **Color**: Black
+* **Material**: Reinforced Plastic
+* **Tags**: insta360,action,360,camera
+
+---
+
+Let me know if you want:
+
+* JSON format to insert directly via Postman
+* Images for each product
+* Matching category/subcategory IDs to test submission from the frontend
