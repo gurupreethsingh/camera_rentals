@@ -6,29 +6,51 @@ const ProductController = require("../controllers/ProductController");
 const { productUpload } = ProductController;
 
 // ========== CREATE ==========
+// router.post(
+//   "/add-product",
+//   productUpload.fields([
+//     { name: "product_image", maxCount: 1 },
+//     { name: "all_product_images", maxCount: 10 },
+//   ]),
+//   ProductController.createProduct
+// );
+
 router.post(
   "/add-product",
   productUpload.fields([
     { name: "product_image", maxCount: 1 },
-    { name: "all_product_images", maxCount: 10 },
+    { name: "product_image_1", maxCount: 1 },
+    { name: "product_image_2", maxCount: 1 },
+    { name: "product_image_3", maxCount: 1 },
+    { name: "product_image_4", maxCount: 1 },
+    { name: "product_image_5", maxCount: 1 },
+    { name: "product_image_6", maxCount: 1 },
+    { name: "product_image_7", maxCount: 1 },
+    { name: "product_image_8", maxCount: 1 },
+    { name: "product_image_9", maxCount: 1 },
+    { name: "product_image_10", maxCount: 1 },
   ]),
   ProductController.createProduct
 );
 
 // ========== READ ==========
 router.get("/all-added-products", ProductController.getAllProducts);
+
 router.get(
   "/get-single-added-product-by-id/:id",
   ProductController.getProductById
 );
+
 router.get(
   "/get-products-by-category/:categoryId",
   ProductController.getProductsByCategory
 );
+
 router.get(
   "/get-products-by-subcategory/:subCategoryId",
   ProductController.getProductsBySubCategory
 );
+
 router.get("/get-products-sorted", ProductController.getProductsSorted);
 
 // ========== UPDATE ==========

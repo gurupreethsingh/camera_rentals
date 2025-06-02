@@ -25,16 +25,156 @@ const productStorage = multer.diskStorage({
 const productUpload = multer({ storage: productStorage });
 exports.productUpload = productUpload;
 
+// exports.createProduct = async (req, res) => {
+//   try {
+//     // Validation: vendor and outlet must be present
+//     if (!req.body.vendor || !req.body.outlet) {
+//       return res
+//         .status(400)
+//         .json({ message: "Vendor and Outlet are required." });
+//     }
+
+//     // Remove empty optional fields
+//     if (req.body.subcategory === "") delete req.body.subcategory;
+//     if (req.body.category === "") delete req.body.category;
+
+//     const {
+//       product_name,
+//       slug,
+//       description,
+//       sku,
+//       selling_price,
+//       display_price,
+//       category,
+//       subcategory,
+//       brand,
+//       barcode,
+//       stock,
+//       warehouse_stock,
+//       total_products_sold,
+//       outlet,
+//       dimensions,
+//       color,
+//       material,
+//       ratings,
+//       avg_rating,
+//       total_reviews,
+//       tags,
+//       section_to_appear,
+//       featured,
+//       is_new_arrival,
+//       is_trending,
+//       availability_status,
+//       discount,
+//       min_purchase_qty,
+//       max_purchase_qty,
+//       delivery_time_estimate,
+//       replacement_policy,
+//       origin_country,
+//       pricing_rules,
+//       campaign,
+//       vendor,
+//       reviews,
+//       orders,
+//       purchases,
+//       returns,
+//       wishlist_users,
+//       questions,
+//       related_products,
+//       bundles,
+//       vector_embedding,
+//       popularity_score,
+//       meta_title,
+//       meta_description,
+//       createdBy,
+//       updatedBy,
+//       version,
+//       admin_notes,
+//     } = req.body;
+
+//     const mainImage =
+//       req.files["product_image"]?.[0]?.path.replace(/\\/g, "/") || "";
+//     const galleryImages =
+//       req.files["all_product_images"]?.map((f) => f.path.replace(/\\/g, "/")) ||
+//       [];
+
+//     const newProduct = new Product({
+//       product_name,
+//       slug,
+//       description,
+//       sku,
+//       selling_price,
+//       display_price,
+//       product_image: mainImage,
+//       all_product_images: galleryImages,
+//       category,
+//       subcategory,
+//       brand,
+//       barcode,
+//       stock,
+//       warehouse_stock,
+//       total_products_sold,
+//       outlet,
+//       dimensions,
+//       color,
+//       material,
+//       ratings,
+//       avg_rating,
+//       total_reviews,
+//       tags,
+//       section_to_appear,
+//       featured,
+//       is_new_arrival,
+//       is_trending,
+//       availability_status,
+//       discount,
+//       min_purchase_qty,
+//       max_purchase_qty,
+//       delivery_time_estimate,
+//       replacement_policy,
+//       origin_country,
+//       pricing_rules,
+//       campaign,
+//       vendor,
+//       reviews,
+//       orders,
+//       purchases,
+//       returns,
+//       wishlist_users,
+//       questions,
+//       related_products,
+//       bundles,
+//       vector_embedding,
+//       popularity_score,
+//       meta_title,
+//       meta_description,
+//       createdBy,
+//       updatedBy,
+//       version,
+//       admin_notes,
+//     });
+
+//     const saved = await newProduct.save();
+//     res.status(201).json(saved);
+//   } catch (error) {
+//     console.error("Create Product Error:", error);
+//     if (error.code === 11000 && error.keyPattern?.sku) {
+//       return res
+//         .status(400)
+//         .json({ message: "SKU already exists. Please use a unique SKU." });
+//     }
+//     res.status(500).json({ message: "Failed to create product." });
+//   }
+// };
+
 exports.createProduct = async (req, res) => {
   try {
-    // Validation: vendor and outlet must be present
     if (!req.body.vendor || !req.body.outlet) {
       return res
         .status(400)
         .json({ message: "Vendor and Outlet are required." });
     }
 
-    // Remove empty optional fields
     if (req.body.subcategory === "") delete req.body.subcategory;
     if (req.body.category === "") delete req.body.category;
 
@@ -92,11 +232,7 @@ exports.createProduct = async (req, res) => {
       admin_notes,
     } = req.body;
 
-    const mainImage =
-      req.files["product_image"]?.[0]?.path.replace(/\\/g, "/") || "";
-    const galleryImages =
-      req.files["all_product_images"]?.map((f) => f.path.replace(/\\/g, "/")) ||
-      [];
+    const normalize = (f) => f?.path?.replace(/\\/g, "/") || "";
 
     const newProduct = new Product({
       product_name,
@@ -105,8 +241,17 @@ exports.createProduct = async (req, res) => {
       sku,
       selling_price,
       display_price,
-      product_image: mainImage,
-      all_product_images: galleryImages,
+      product_image: normalize(req.files["product_image"]?.[0]),
+      product_image_1: normalize(req.files["product_image_1"]?.[0]),
+      product_image_2: normalize(req.files["product_image_2"]?.[0]),
+      product_image_3: normalize(req.files["product_image_3"]?.[0]),
+      product_image_4: normalize(req.files["product_image_4"]?.[0]),
+      product_image_5: normalize(req.files["product_image_5"]?.[0]),
+      product_image_6: normalize(req.files["product_image_6"]?.[0]),
+      product_image_7: normalize(req.files["product_image_7"]?.[0]),
+      product_image_8: normalize(req.files["product_image_8"]?.[0]),
+      product_image_9: normalize(req.files["product_image_9"]?.[0]),
+      product_image_10: normalize(req.files["product_image_10"]?.[0]),
       category,
       subcategory,
       brand,
