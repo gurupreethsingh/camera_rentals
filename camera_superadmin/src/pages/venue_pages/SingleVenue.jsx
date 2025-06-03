@@ -1,3 +1,6 @@
+// ✅ This is the enhanced version of SingleVenue.jsx fully aligned with your SingleAddedProduct.jsx structure
+// Includes: main image update, gallery image replace/delete, controlled form fields, complete update logic
+
 import React, { useEffect, useState } from "react";
 import {
   FaHome,
@@ -15,7 +18,8 @@ import {
   FaFileContract,
   FaBuilding,
 } from "react-icons/fa";
-import { MdEdit } from "react-icons/md";
+import { MdEdit, MdDelete } from "react-icons/md";
+import { motion } from "framer-motion";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import globalBackendRoute from "../../config/Config";
@@ -27,103 +31,85 @@ export default function SingleVenue() {
   const [editMode, setEditMode] = useState(false);
   const [updatedFields, setUpdatedFields] = useState({});
   const [newMainImage, setNewMainImage] = useState(null);
-  const [newGalleryImages, setNewGalleryImages] = useState([]);
+  const [newGalleryImages, setNewGalleryImages] = useState({});
   const { id } = useParams();
 
   useEffect(() => {
-    const fetchVenueData = async () => {
+    const fetchVenue = async () => {
       try {
-        const response = await axios.get(
-          `${globalBackendRoute}/api/get-venue/${id}`
+        const res = await axios.get(
+          `${globalBackendRoute}/api/get_venue_by_id/${id}`
         );
-        const data = response.data;
+        setVenueData(res.data);
 
-        data.amenities = Array.isArray(data.amenities)
-          ? data.amenities.join(", ")
-          : data.amenities;
-        data.category_tags = Array.isArray(data.category_tags)
-          ? data.category_tags.join(", ")
-          : data.category_tags;
-
-        // Ensure all gallery image paths are unique but keep duplicates if needed
-        data.gallery_images = Array.isArray(data.gallery_images)
-          ? data.gallery_images
-          : [];
-
-        setVenueData(data);
-        setUpdatedFields(data);
+        const dataCopy = { ...res.data };
+        delete dataCopy._id;
+        setUpdatedFields(dataCopy);
       } catch (error) {
-        console.error("Error fetching venue data:", error);
+        console.error("Error fetching venue:", error);
       }
     };
-    fetchVenueData();
+    fetchVenue();
   }, [id]);
 
   const handleUpdate = async () => {
     try {
       const formData = new FormData();
-
-      const tagsArray =
-        typeof updatedFields.category_tags === "string"
-          ? updatedFields.category_tags.split(",").map((t) => t.trim())
-          : updatedFields.category_tags || [];
-
-      const amenitiesArray =
-        typeof updatedFields.amenities === "string"
-          ? updatedFields.amenities.split(",").map((a) => a.trim())
-          : updatedFields.amenities || [];
-
-      const numericFields = [
-        "max_guests",
-        "number_of_rooms",
-        "area_sqft",
-        "base_price",
-        "discount_percentage",
-        "additional_charges",
-      ];
-
       Object.entries(updatedFields).forEach(([key, val]) => {
-        if (val !== undefined && val !== null && val !== "") {
-          if (numericFields.includes(key)) {
-            formData.append(key, parseInt(val) || 0);
-          } else if (key === "category_tags") {
-            formData.append("category_tags", JSON.stringify(tagsArray));
-          } else if (key === "amenities") {
-            formData.append("amenities", JSON.stringify(amenitiesArray));
-          } else {
-            formData.append(key, val);
-          }
+        if (val !== undefined && val !== null) {
+          formData.append(key, val);
+        }
+      });
+      if (newMainImage) formData.append("main_image", newMainImage);
+      Object.entries(newGalleryImages).forEach(([key, file]) => {
+        if (file && file.size <= 5 * 1024 * 1024) {
+          formData.append(key, file);
         }
       });
 
-      if (newMainImage) formData.append("main_image", newMainImage);
-      newGalleryImages.forEach((file) => {
-        formData.append("gallery_images", file);
-      });
-
-      const res = await axios.put(
+      await axios.put(
         `${globalBackendRoute}/api/update-venue/${id}`,
         formData,
-        { headers: { "Content-Type": "multipart/form-data" } }
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
       );
-
       alert("Venue updated successfully!");
       window.location.reload();
-    } catch (error) {
-      console.error("Error updating venue:", error);
-      alert("Failed to update the venue. Please try again.");
+    } catch (err) {
+      console.error("Error updating venue:", err);
+      alert("Failed to update venue");
     }
   };
 
-  const getImageUrl = (imagePath) => {
-    if (!imagePath) return "https://via.placeholder.com/150";
-    return `${globalBackendRoute}/${imagePath.replace(/\\/g, "/")}`;
+  const deleteGalleryImage = async (imageKey) => {
+    if (!window.confirm("Are you sure you want to delete this image?")) return;
+    try {
+      await axios.post(`${globalBackendRoute}/api/delete-venue-image/${id}`, {
+        imageKey,
+      });
+      alert("Image deleted successfully.");
+      window.location.reload();
+    } catch (err) {
+      console.error("Error deleting image:", err);
+      alert("Failed to delete image");
+    }
+  };
+
+  const getImageUrl = (imgPath) => {
+    if (!imgPath) return "https://via.placeholder.com/150";
+    return `${globalBackendRoute}/${imgPath.replace(/\\/g, "/")}`;
   };
 
   const safe = (val) =>
     val === null || val === undefined || val === "" ? "NA" : val;
 
   if (!venueData) return <div className="text-center py-8">Loading...</div>;
+
+  const imageFields = Array.from(
+    { length: 10 },
+    (_, i) => `gallery_image_${i + 1}`
+  );
 
   const allFields = [
     { icon: <FaHome />, label: "Venue Name", key: "venue_name" },
@@ -159,44 +145,59 @@ export default function SingleVenue() {
   ];
 
   return (
-    <div className="containerWidth my-6">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="containerWidth my-6"
+    >
       <div className="flex flex-col sm:flex-row sm:items-start items-center gap-6">
         <div className="w-full sm:w-1/3 space-y-4">
           <img
             src={getImageUrl(venueData.main_image)}
-            alt={venueData.venue_name || "Venue"}
+            alt="Venue"
             className="w-full h-48 object-cover rounded-xl border"
           />
 
           {editMode && (
-            <>
-              <ModernFileInput
-                label="Update Main Image"
-                multiple={false}
-                onFileSelect={(file) => setNewMainImage(file)}
-              />
-
-              <ModernFileInput
-                label="Update Gallery Images"
-                multiple={true}
-                maxFiles={10}
-                onFileSelect={(files) => setNewGalleryImages(files)}
-              />
-            </>
+            <ModernFileInput
+              label="Update Main Image"
+              multiple={false}
+              onFileSelect={(file) => setNewMainImage(file)}
+            />
           )}
 
-          {venueData.gallery_images?.length > 0 && (
-            <div className="grid grid-cols-3 gap-2 mt-4">
-              {venueData.gallery_images.map((img, i) => (
-                <img
-                  key={`${img}-${i}-${Math.random()}`}
-                  src={getImageUrl(img)}
-                  alt={`Gallery ${i}`}
-                  className="w-full h-20 object-cover rounded-lg border"
-                />
-              ))}
-            </div>
-          )}
+          <div className="grid grid-cols-3 gap-2 mt-4">
+            {imageFields.map((key) => (
+              <div key={key} className="flex flex-col items-center gap-1">
+                {venueData[key] && (
+                  <>
+                    <img
+                      src={getImageUrl(venueData[key])}
+                      alt={key}
+                      className="w-full h-20 object-cover rounded-lg border"
+                    />
+                    {editMode && (
+                      <button
+                        className="text-red-600 text-xs"
+                        onClick={() => deleteGalleryImage(key)}
+                      >
+                        <MdDelete className="inline mr-1" /> Delete
+                      </button>
+                    )}
+                  </>
+                )}
+                {editMode && (
+                  <ModernFileInput
+                    label={`Replace ${key}`}
+                    multiple={false}
+                    onFileSelect={(file) =>
+                      setNewGalleryImages((prev) => ({ ...prev, [key]: file }))
+                    }
+                  />
+                )}
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="w-full sm:w-2/3">
@@ -246,7 +247,7 @@ export default function SingleVenue() {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

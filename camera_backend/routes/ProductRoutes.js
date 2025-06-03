@@ -58,7 +58,16 @@ router.put(
   "/update-product/:id",
   productUpload.fields([
     { name: "product_image", maxCount: 1 },
-    { name: "all_product_images", maxCount: 10 },
+    { name: "product_image_1", maxCount: 1 },
+    { name: "product_image_2", maxCount: 1 },
+    { name: "product_image_3", maxCount: 1 },
+    { name: "product_image_4", maxCount: 1 },
+    { name: "product_image_5", maxCount: 1 },
+    { name: "product_image_6", maxCount: 1 },
+    { name: "product_image_7", maxCount: 1 },
+    { name: "product_image_8", maxCount: 1 },
+    { name: "product_image_9", maxCount: 1 },
+    { name: "product_image_10", maxCount: 1 },
   ]),
   ProductController.updateProductById
 );

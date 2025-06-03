@@ -25,7 +25,6 @@ const productStorage = multer.diskStorage({
 const productUpload = multer({ storage: productStorage });
 exports.productUpload = productUpload;
 
-
 exports.createProduct = async (req, res) => {
   try {
     if (!req.body.vendor || !req.body.outlet) {
@@ -278,7 +277,6 @@ exports.updateProductById = async (req, res) => {
       return arr;
     };
 
-    // 🛡️ Fix pricing_rules
     let safePricingRules = [];
     if (pricing_rules) {
       if (typeof pricing_rules === "string") {
@@ -352,17 +350,35 @@ exports.updateProductById = async (req, res) => {
       updatedAt: Date.now(),
     };
 
+    const oldProduct = await Product.findById(req.params.id);
+    if (!oldProduct) {
+      return res.status(404).json({ message: "Product not found." });
+    }
+
     if (req.files) {
+      // ✅ Replace and delete main product image
       if (req.files["product_image"] && req.files["product_image"][0]) {
+        const oldPath = oldProduct.product_image;
+        if (oldPath) {
+          const fullPath = path.join(__dirname, "..", oldPath);
+          if (fs.existsSync(fullPath)) fs.unlinkSync(fullPath);
+        }
         updatedFields.product_image = req.files[
           "product_image"
         ][0].path.replace(/\\/g, "/");
       }
 
-      if (req.files["all_product_images"]) {
-        updatedFields.all_product_images = req.files["all_product_images"].map(
-          (file) => file.path.replace(/\\/g, "/")
-        );
+      // ✅ Replace and delete gallery images (1 to 10)
+      for (let i = 1; i <= 10; i++) {
+        const key = `product_image_${i}`;
+        if (req.files[key] && req.files[key][0]) {
+          const oldPath = oldProduct[key];
+          if (oldPath) {
+            const fullPath = path.join(__dirname, "..", oldPath);
+            if (fs.existsSync(fullPath)) fs.unlinkSync(fullPath);
+          }
+          updatedFields[key] = req.files[key][0].path.replace(/\\/g, "/");
+        }
       }
     }
 
@@ -373,7 +389,7 @@ exports.updateProductById = async (req, res) => {
     );
 
     if (!updated) {
-      return res.status(404).json({ message: "Product not found." });
+      return res.status(404).json({ message: "Failed to update product." });
     }
 
     res.status(200).json(updated);
@@ -399,11 +415,11 @@ exports.updateProductById = async (req, res) => {
 //   }
 // };
 
-
 exports.deleteProductById = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
-    if (!product) return res.status(404).json({ message: "Product not found." });
+    if (!product)
+      return res.status(404).json({ message: "Product not found." });
 
     const imageFields = [
       "product_image",
@@ -434,13 +450,14 @@ exports.deleteProductById = async (req, res) => {
     });
 
     await Product.findByIdAndDelete(req.params.id);
-    res.status(200).json({ message: "Product and images deleted permanently." });
+    res
+      .status(200)
+      .json({ message: "Product and images deleted permanently." });
   } catch (error) {
     console.error("Delete Product Error:", error);
     res.status(500).json({ message: "Failed to delete product." });
   }
 };
-
 
 exports.deleteProductImage = async (req, res) => {
   const { id } = req.params;
@@ -488,7 +505,9 @@ exports.deleteProductImageByKey = async (req, res) => {
 
     const imagePath = product[imageKey];
     if (!imagePath) {
-      return res.status(404).json({ error: "Image not found for the given key" });
+      return res
+        .status(404)
+        .json({ error: "Image not found for the given key" });
     }
 
     // Delete the physical image file from disk
@@ -509,8 +528,6 @@ exports.deleteProductImageByKey = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
-
-
 
 exports.countAllProducts = async (req, res) => {
   try {

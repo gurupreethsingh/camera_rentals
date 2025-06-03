@@ -24,7 +24,7 @@ const AllVenues = () => {
   useEffect(() => {
     const fetchVenues = async () => {
       try {
-        const res = await axios.get(`${globalBackendRoute}/api/get-all-venues`);
+        const res = await axios.get(`${globalBackendRoute}/api/all-venues`);
         setVenues(res.data);
         setTotalCount(res.data.length);
       } catch (error) {
@@ -51,10 +51,10 @@ const AllVenues = () => {
   };
 
   const handleDeleteVenue = async (venueId) => {
-    const confirm = window.confirm(
+    const confirmDelete = window.confirm(
       "Are you sure you want to delete this venue?"
     );
-    if (!confirm) return;
+    if (!confirmDelete) return;
 
     try {
       const res = await axios.delete(
@@ -73,7 +73,7 @@ const AllVenues = () => {
   const filteredVenues = searchQuery.trim()
     ? venues.filter((venue) => {
         const fullText =
-          `${venue.venue_name} ${venue.city} ${venue.type}`.toLowerCase();
+          `${venue.venue_name} ${venue.city} ${venue.owner_name}`.toLowerCase();
         const queryWords = searchQuery
           .toLowerCase()
           .split(/\s+/)

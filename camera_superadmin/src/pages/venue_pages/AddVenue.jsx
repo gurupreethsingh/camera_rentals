@@ -1,30 +1,11 @@
+import globalBackendRoute from "../../config/Config";
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import globalBackendRoute from "../../config/Config";
-import {
-  FaHome,
-  FaMapMarkerAlt,
-  FaEnvelope,
-  FaPhone,
-  FaGlobe,
-  FaUpload,
-  FaUsers,
-  FaDoorOpen,
-  FaRulerCombined,
-  FaMoneyBillWave,
-  FaTags,
-  FaClipboardList,
-  FaUserTie,
-  FaFileContract,
-  FaPen,
-  FaBuilding,
-} from "react-icons/fa";
 
 export default function AddVenue() {
   const navigate = useNavigate();
-  const [message, setMessage] = useState("");
-  const [formData, setFormData] = useState({
+  const [venueData, setVenueData] = useState({
     venue_name: "",
     slug: "",
     description: "",
@@ -51,256 +32,210 @@ export default function AddVenue() {
     ownership_proof_doc_url: "",
     terms_and_conditions_url: "",
   });
-  const [mainImage, setMainImage] = useState(null);
-  const [galleryImages, setGalleryImages] = useState([]);
 
-  const numericFields = [
-    "max_guests",
-    "number_of_rooms",
-    "area_sqft",
-    "base_price",
-    "discount_percentage",
-    "additional_charges",
-  ];
+  const [mainImage, setMainImage] = useState(null);
+  const [galleryImages, setGalleryImages] = useState({
+    gallery_image_1: null,
+    gallery_image_2: null,
+    gallery_image_3: null,
+    gallery_image_4: null,
+    gallery_image_5: null,
+    gallery_image_6: null,
+    gallery_image_7: null,
+    gallery_image_8: null,
+    gallery_image_9: null,
+    gallery_image_10: null,
+  });
+
+  const [message, setMessage] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    setVenueData((prev) => ({
+      ...prev,
+      [name]: name === "venue_name" ? value.trimStart() : value,
+    }));
+  };
 
-    if (numericFields.includes(name)) {
-      // Allow only numbers or decimal points
-      if (value === "" || /^[0-9]*\.?[0-9]*$/.test(value)) {
-        setFormData((prev) => ({ ...prev, [name]: value }));
-      }
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
-    }
+  const handleGalleryChange = (e, key) => {
+    setGalleryImages((prev) => ({
+      ...prev,
+      [key]: e.target.files[0],
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const data = new FormData();
-
-      Object.entries(formData).forEach(([key, val]) => {
-        if (key === "category_tags" || key === "amenities") return;
-        data.append(key, val);
+      const formData = new FormData();
+      Object.entries(venueData).forEach(([key, val]) => {
+        if (["category_tags", "amenities"].includes(key)) return;
+        formData.append(key, val);
       });
 
-      data.append(
+      formData.append(
         "category_tags",
-        JSON.stringify(formData.category_tags.split(",").map((t) => t.trim()))
+        JSON.stringify(venueData.category_tags.split(",").map((x) => x.trim()))
       );
-      data.append(
+      formData.append(
         "amenities",
-        JSON.stringify(formData.amenities.split(",").map((a) => a.trim()))
+        JSON.stringify(venueData.amenities.split(",").map((x) => x.trim()))
       );
 
-      if (mainImage) data.append("main_image", mainImage);
-      galleryImages.forEach((img) => data.append("gallery_images", img));
+      if (mainImage) formData.append("main_image", mainImage);
+      Object.entries(galleryImages).forEach(([key, file]) => {
+        if (file) formData.append(key, file);
+      });
 
       const res = await axios.post(
         `${globalBackendRoute}/api/add-venue`,
-        data,
+        formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
 
       if (res.status === 201) {
-        alert("Venue created successfully");
+        alert("Venue added successfully!");
         navigate("/all-venues");
+      } else {
+        throw new Error("Venue not created");
       }
-    } catch (err) {
-      console.error("Venue creation failed", err);
-      setMessage("Failed to create venue. Please check your inputs.");
+    } catch (error) {
+      console.error("Add Venue Error:", error);
+      setMessage(
+        error.response?.data?.message || "Failed to add venue. Try again."
+      );
     }
   };
 
-  const renderField = (label, name, icon, placeholder, type = "text") => {
-    const isNumeric = numericFields.includes(name);
-    return (
-      <div className="flex flex-col mb-4">
-        <label className="font-medium text-gray-700 flex items-center gap-2">
-          {icon} {label}
-        </label>
-        <input
-          type={isNumeric ? "number" : type}
-          name={name}
-          placeholder={placeholder}
-          value={formData[name]}
-          onChange={handleChange}
-          className="mt-1 px-4 py-2 rounded border shadow-sm focus:ring focus:outline-none"
-          min={isNumeric ? 0 : undefined}
-          required
-        />
-      </div>
-    );
-  };
-
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <h2 className="text-2xl font-bold mb-4">Add New Venue</h2>
-
-      {message && (
-        <div className="col-span-2 text-red-600 font-semibold border border-red-300 bg-red-50 px-4 py-2 rounded mb-4">
-          {message}
-        </div>
-      )}
-
+    <div className="max-w-5xl mx-auto py-10 px-4">
+      <h2 className="text-3xl font-bold mb-6">Add New Venue</h2>
+      {message && <p className="text-red-500 text-center">{message}</p>}
       <form
         onSubmit={handleSubmit}
-        className="grid grid-cols-1 sm:grid-cols-2 gap-6"
+        className="space-y-6"
         encType="multipart/form-data"
       >
-        {renderField("Venue Name", "venue_name", <FaHome />, "e.g., Taj Villa")}
-        {renderField("Slug", "slug", <FaTags />, "e.g., taj-villa")}
-
-        {/* Description */}
-        <div className="flex flex-col mb-4 col-span-2">
-          <label className="font-medium text-gray-700 flex items-center gap-2">
-            <FaPen /> Description
-          </label>
-          <textarea
-            name="description"
-            placeholder="Full venue description"
-            rows={4}
-            value={formData.description}
-            onChange={handleChange}
-            className="mt-1 px-4 py-2 rounded border shadow-sm focus:ring focus:outline-none"
-            required
-          ></textarea>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {[
+            "venue_name",
+            "slug",
+            "description",
+            "type",
+            "category_tags",
+            "address",
+            "city",
+            "state",
+            "country",
+            "pincode",
+            "contact_email",
+            "contact_phone",
+            "website",
+            "max_guests",
+            "number_of_rooms",
+            "area_sqft",
+            "base_price",
+            "price_unit",
+            "additional_charges",
+            "discount_percentage",
+            "amenities",
+            "policies",
+            "owner_name",
+            "ownership_proof_doc_url",
+            "terms_and_conditions_url",
+          ].map((key) => (
+            <div key={key}>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                <span className="text-red-500">*</span>{" "}
+                {key
+                  .replace(/_/g, " ")
+                  .replace(/\b\w/g, (c) => c.toUpperCase())}
+              </label>
+              {key === "description" || key === "policies" ? (
+                <textarea
+                  name={key}
+                  rows={3}
+                  value={venueData[key]}
+                  onChange={handleChange}
+                  className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                ></textarea>
+              ) : key === "type" ? (
+                <select
+                  name="type"
+                  value={venueData.type}
+                  onChange={handleChange}
+                  className="block w-full h-10 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                >
+                  <option value="villa">Villa</option>
+                  <option value="hotel">Hotel</option>
+                  <option value="resort">Resort</option>
+                  <option value="banquet">Banquet</option>
+                  <option value="apartment">Apartment</option>
+                  <option value="hall">Hall</option>
+                  <option value="other">Other</option>
+                </select>
+              ) : (
+                <input
+                  type={
+                    [
+                      "max_guests",
+                      "number_of_rooms",
+                      "area_sqft",
+                      "base_price",
+                      "additional_charges",
+                      "discount_percentage",
+                    ].includes(key)
+                      ? "number"
+                      : "text"
+                  }
+                  name={key}
+                  value={venueData[key]}
+                  onChange={handleChange}
+                  className="block w-full h-10 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                />
+              )}
+            </div>
+          ))}
         </div>
-
-        {/* Type */}
-        <div className="flex flex-col mb-4">
-          <label className="font-medium text-gray-700 flex items-center gap-2">
-            <FaBuilding /> Type
-          </label>
-          <select
-            name="type"
-            value={formData.type}
-            onChange={handleChange}
-            className="mt-1 px-4 py-2 rounded border shadow-sm focus:ring focus:outline-none"
-          >
-            <option value="villa">Villa</option>
-            <option value="hotel">Hotel</option>
-            <option value="resort">Resort</option>
-            <option value="banquet">Banquet</option>
-            <option value="apartment">Apartment</option>
-            <option value="hall">Hall</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-
-        {renderField("City", "city", <FaMapMarkerAlt />, "e.g., Mumbai")}
-        {renderField("Address", "address", <FaMapMarkerAlt />, "Full address")}
-        {renderField("State", "state", <FaMapMarkerAlt />, "e.g., Maharashtra")}
-        {renderField("Pincode", "pincode", <FaMapMarkerAlt />, "e.g., 400001")}
-        {renderField(
-          "Contact Email",
-          "contact_email",
-          <FaEnvelope />,
-          "example@venue.com"
-        )}
-        {renderField(
-          "Contact Phone",
-          "contact_phone",
-          <FaPhone />,
-          "e.g., 9876543210"
-        )}
-        {renderField("Website", "website", <FaGlobe />, "https://example.com")}
-        {renderField("Max Guests", "max_guests", <FaUsers />, "e.g., 300")}
-        {renderField("Rooms", "number_of_rooms", <FaDoorOpen />, "e.g., 10")}
-        {renderField(
-          "Area (sqft)",
-          "area_sqft",
-          <FaRulerCombined />,
-          "e.g., 5000"
-        )}
-        {renderField(
-          "Base Price",
-          "base_price",
-          <FaMoneyBillWave />,
-          "e.g., 10000"
-        )}
-        {renderField(
-          "Discount %",
-          "discount_percentage",
-          <FaTags />,
-          "e.g., 10"
-        )}
-        {renderField(
-          "Category Tags",
-          "category_tags",
-          <FaTags />,
-          "Comma separated"
-        )}
-        {renderField(
-          "Amenities",
-          "amenities",
-          <FaClipboardList />,
-          "Comma separated"
-        )}
-        {renderField(
-          "Policies",
-          "policies",
-          <FaClipboardList />,
-          "Rules and conditions"
-        )}
-        {renderField(
-          "Owner Name",
-          "owner_name",
-          <FaUserTie />,
-          "e.g., John Doe"
-        )}
-        {renderField(
-          "Ownership Doc URL",
-          "ownership_proof_doc_url",
-          <FaFileContract />,
-          "Link to document"
-        )}
-        {renderField(
-          "T&C URL",
-          "terms_and_conditions_url",
-          <FaFileContract />,
-          "Link to T&C"
-        )}
 
         {/* Main Image */}
-        <div className="flex flex-col">
-          <label className="font-medium text-gray-700 flex items-center gap-2 mb-1">
-            <FaUpload /> Main Image
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            <span className="text-red-500">*</span> Main Venue Image
           </label>
           <input
             type="file"
             accept="image/*"
             onChange={(e) => setMainImage(e.target.files[0])}
-            className="border rounded px-4 py-2 text-sm cursor-pointer file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-indigo-600 file:text-white hover:file:bg-indigo-700"
+            className="block w-full h-12 text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border file:border-gray-300"
           />
         </div>
 
         {/* Gallery Images */}
-        <div className="flex flex-col">
-          <label className="font-medium text-gray-700 flex items-center gap-2 mb-1">
-            <FaUpload /> Gallery Images
-          </label>
-          <input
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={(e) => setGalleryImages([...e.target.files])}
-            className="border rounded px-4 py-2 text-sm cursor-pointer file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-indigo-600 file:text-white hover:file:bg-indigo-700"
-          />
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {Object.keys(galleryImages).map((key, idx) => (
+            <div key={key}>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Gallery Image {idx + 1}
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => handleGalleryChange(e, key)}
+                className="block w-full h-12 text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border file:border-gray-300"
+              />
+            </div>
+          ))}
         </div>
 
-        <div className="col-span-2">
-          <button
-            type="submit"
-            className="w-full bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg shadow hover:bg-indigo-700"
-          >
-            Add Venue Details
-          </button>
-        </div>
+        <button
+          type="submit"
+          className="w-full bg-gradient-to-r from-cyan-500 via-teal-500 to-indigo-500 text-white font-semibold py-3 px-4 rounded-lg shadow hover:opacity-90"
+        >
+          Add Venue
+        </button>
       </form>
     </div>
   );

@@ -1,15 +1,17 @@
+// VENUE CONTROLLER FULLY UPDATED
+
 const Venue = require("../models/VenueModel");
 const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
-const { v4: uuidv4 } = require("uuid"); // Add at top
+const { v4: uuidv4 } = require("uuid");
 
-// Create upload directory if not exists
+// Upload directory
 const venueUploadDir = path.join("uploads", "venues");
 if (!fs.existsSync(venueUploadDir))
   fs.mkdirSync(venueUploadDir, { recursive: true });
 
-// Multer config
+// Multer Config
 const venueStorage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, venueUploadDir),
   filename: (req, file, cb) => {
@@ -22,52 +24,37 @@ const venueStorage = multer.diskStorage({
 const venueUpload = multer({ storage: venueStorage });
 exports.venueUpload = venueUpload;
 
-// Create Venue
+// Helper functions
+const normalize = (f) => f?.path?.replace(/\\/g, "/") || "";
+const safeParseArray = (input) => {
+  if (!input) return [];
+  if (Array.isArray(input)) return input;
+  try {
+    const parsed = JSON.parse(input);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+};
+
+// Fields
+const imageKeys = [
+  "main_image",
+  ...Array.from({ length: 10 }, (_, i) => `gallery_image_${i + 1}`),
+];
+
+// CREATE VENUE
 exports.createVenue = async (req, res) => {
   try {
-    const mainImagePath =
-      req.files?.main_image?.[0]?.path.replace(/\\/g, "/") || "";
-    const galleryImagesPaths =
-      req.files?.gallery_images?.map((f) => f.path.replace(/\\/g, "/")) || [];
-
-    const categoryTagsParsed = safeParseArray(req.body.category_tags);
-    const amenitiesParsed = safeParseArray(req.body.amenities);
-
     const venue = new Venue({
-      venue_name: req.body.venue_name,
-      slug: req.body.slug,
-      description: req.body.description,
-      type: req.body.type || "other",
-      category_tags: categoryTagsParsed,
-      address: req.body.address,
-      city: req.body.city,
-      state: req.body.state,
-      country: req.body.country || "India",
-      pincode: req.body.pincode,
-      coordinates: req.body.coordinates,
-      contact_email: req.body.contact_email,
-      contact_phone: req.body.contact_phone,
-      website: req.body.website,
-      main_image: mainImagePath,
-      gallery_images: galleryImagesPaths,
-      max_guests: req.body.max_guests,
-      number_of_rooms: req.body.number_of_rooms,
-      area_sqft: req.body.area_sqft,
-      base_price: req.body.base_price,
-      price_unit: req.body.price_unit || "per_night",
-      additional_charges: req.body.additional_charges || 0,
-      discount_percentage: req.body.discount_percentage || 0,
-      amenities: amenitiesParsed,
-      policies: req.body.policies,
-      owner_name: req.body.owner_name,
-      ownership_proof_doc_url: req.body.ownership_proof_doc_url,
-      terms_and_conditions_url: req.body.terms_and_conditions_url,
-      is_available: req.body.is_available ?? true,
-      blackout_dates: req.body.blackout_dates || [],
-      avg_rating: req.body.avg_rating || 0,
-      total_reviews: req.body.total_reviews || 0,
-      is_featured: req.body.is_featured || false,
-      approval_status: req.body.approval_status || "pending",
+      ...req.body,
+      category_tags: safeParseArray(req.body.category_tags),
+      amenities: safeParseArray(req.body.amenities),
+      blackout_dates: safeParseArray(req.body.blackout_dates),
+    });
+
+    imageKeys.forEach((key) => {
+      venue[key] = normalize(req.files[key]?.[0]);
     });
 
     await venue.save();
@@ -80,7 +67,7 @@ exports.createVenue = async (req, res) => {
   }
 };
 
-// Get all venues
+// READ ALL VENUES
 exports.getAllVenues = async (req, res) => {
   try {
     const venues = await Venue.find();
@@ -92,7 +79,7 @@ exports.getAllVenues = async (req, res) => {
   }
 };
 
-// Get single venue by ID
+// READ SINGLE VENUE
 exports.getVenueById = async (req, res) => {
   try {
     const venue = await Venue.findById(req.params.id);
@@ -105,66 +92,36 @@ exports.getVenueById = async (req, res) => {
   }
 };
 
-// Update venue
+// UPDATE VENUE
 exports.updateVenueById = async (req, res) => {
   try {
+    const venue = await Venue.findById(req.params.id);
+    if (!venue) return res.status(404).json({ message: "Venue not found." });
+
     const updatedFields = {
-      venue_name: req.body.venue_name,
-      slug: req.body.slug,
-      description: req.body.description,
-      type: req.body.type || "other",
+      ...req.body,
       category_tags: safeParseArray(req.body.category_tags),
-      address: req.body.address,
-      city: req.body.city,
-      state: req.body.state,
-      country: req.body.country || "India",
-      pincode: req.body.pincode,
-      coordinates: req.body.coordinates,
-      contact_email: req.body.contact_email,
-      contact_phone: req.body.contact_phone,
-      website: req.body.website,
-      max_guests: req.body.max_guests,
-      number_of_rooms: req.body.number_of_rooms,
-      area_sqft: req.body.area_sqft,
-      base_price: req.body.base_price,
-      price_unit: req.body.price_unit || "per_night",
-      additional_charges: req.body.additional_charges || 0,
-      discount_percentage: req.body.discount_percentage || 0,
       amenities: safeParseArray(req.body.amenities),
-      policies: req.body.policies,
-      owner_name: req.body.owner_name,
-      ownership_proof_doc_url: req.body.ownership_proof_doc_url,
-      terms_and_conditions_url: req.body.terms_and_conditions_url,
-      is_available: req.body.is_available ?? true,
-      blackout_dates: req.body.blackout_dates || [],
-      avg_rating: req.body.avg_rating || 0,
-      total_reviews: req.body.total_reviews || 0,
-      is_featured: req.body.is_featured || false,
-      approval_status: req.body.approval_status || "pending",
-      updatedAt: new Date(),
+      blackout_dates: safeParseArray(req.body.blackout_dates),
+      updatedAt: Date.now(),
     };
 
-    if (req.files["main_image"]) {
-      updatedFields.main_image = req.files["main_image"][0].path.replace(
-        /\\/g,
-        "/"
-      );
-    }
-
-    if (req.files["gallery_images"]) {
-      updatedFields.gallery_images = req.files["gallery_images"].map((f) =>
-        f.path.replace(/\\/g, "/")
-      );
-    }
+    imageKeys.forEach((key) => {
+      if (req.files[key]?.[0]) {
+        const oldPath = venue[key];
+        if (oldPath) {
+          const fullPath = path.join(__dirname, "..", oldPath);
+          if (fs.existsSync(fullPath)) fs.unlinkSync(fullPath);
+        }
+        updatedFields[key] = normalize(req.files[key][0]);
+      }
+    });
 
     const updated = await Venue.findByIdAndUpdate(
       req.params.id,
       updatedFields,
-      {
-        new: true,
-      }
+      { new: true }
     );
-    if (!updated) return res.status(404).json({ message: "Venue not found." });
     res.status(200).json(updated);
   } catch (err) {
     res
@@ -173,12 +130,37 @@ exports.updateVenueById = async (req, res) => {
   }
 };
 
-// Delete venue
+// DELETE VENUE AND IMAGES
 exports.deleteVenue = async (req, res) => {
   try {
-    const deleted = await Venue.findByIdAndDelete(req.params.id);
-    if (!deleted) return res.status(404).json({ message: "Venue not found." });
-    res.status(200).json({ message: "Venue deleted successfully." });
+    const venue = await Venue.findById(req.params.id);
+    if (!venue) return res.status(404).json({ message: "Venue not found." });
+
+    const venueData = venue._doc; // get raw fields, even if undefined normally
+
+    imageKeys.forEach((key) => {
+      const imagePath = venueData[key];
+      if (typeof imagePath === "string" && imagePath.trim()) {
+        const fullPath = path.join(__dirname, "..", imagePath);
+        if (fs.existsSync(fullPath)) {
+          try {
+            fs.unlinkSync(fullPath);
+            console.log(`✅ Deleted: ${fullPath}`);
+          } catch (err) {
+            console.warn(`⚠️ Could not delete ${fullPath}:`, err.message);
+          }
+        } else {
+          console.log(`❌ Not Found: ${fullPath}`);
+        }
+      } else {
+        console.log(`🟡 Skipped ${key}:`, imagePath);
+      }
+    });
+
+    await Venue.findByIdAndDelete(req.params.id);
+    res
+      .status(200)
+      .json({ message: "Venue and all images deleted permanently." });
   } catch (err) {
     res
       .status(500)
@@ -186,7 +168,43 @@ exports.deleteVenue = async (req, res) => {
   }
 };
 
-// Count venues
+// DELETE SINGLE IMAGE BY KEY
+exports.deleteVenueImageByKey = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { imageKey } = req.body;
+
+    if (!id || !imageKey) {
+      return res.status(400).json({ message: "Missing venue ID or image key" });
+    }
+
+    const venue = await Venue.findById(id);
+    if (!venue) return res.status(404).json({ message: "Venue not found" });
+
+    const imagePath = venue[imageKey];
+    if (!imagePath)
+      return res.status(400).json({ message: "Invalid image key" });
+
+    // Delete file from disk
+    const filePath = path.join(__dirname, "..", imagePath);
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+    }
+
+    // Remove field from DB
+    venue[imageKey] = undefined;
+    await venue.save();
+
+    return res.status(200).json({ message: "Image deleted successfully" });
+  } catch (err) {
+    console.error("Error in deleteVenueImageByKey:", err);
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: err.message });
+  }
+};
+
+// COUNT VENUES
 exports.countVenues = async (req, res) => {
   try {
     const count = await Venue.countDocuments();
@@ -198,14 +216,77 @@ exports.countVenues = async (req, res) => {
   }
 };
 
-// 🔧 Helper to safely parse arrays from strings
-function safeParseArray(input) {
-  if (!input) return [];
-  if (Array.isArray(input)) return input;
+// SEARCH VENUES
+exports.searchVenues = async (req, res) => {
   try {
-    const parsed = JSON.parse(input);
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
+    const { query } = req.query;
+    if (!query)
+      return res.status(400).json({ message: "Search query is required" });
+
+    const results = await Venue.find({
+      $or: [
+        { venue_name: { $regex: query, $options: "i" } },
+        { description: { $regex: query, $options: "i" } },
+        { city: { $regex: query, $options: "i" } },
+        { category_tags: { $regex: query, $options: "i" } },
+        { amenities: { $regex: query, $options: "i" } },
+      ],
+    });
+
+    res.status(200).json(results);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to search venues" });
   }
-}
+};
+
+// FILTER BY CITY
+exports.getVenuesByCity = async (req, res) => {
+  try {
+    const { city } = req.params;
+    const venues = await Venue.find({ city: new RegExp(city, "i") });
+    res.status(200).json(venues);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch venues by city" });
+  }
+};
+
+// FILTER BY AVAILABILITY
+exports.getAvailableVenues = async (req, res) => {
+  try {
+    const venues = await Venue.find({ is_available: true });
+    res.status(200).json(venues);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch available venues" });
+  }
+};
+
+exports.getUnavailableVenues = async (req, res) => {
+  try {
+    const venues = await Venue.find({ is_available: false });
+    res.status(200).json(venues);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch unavailable venues" });
+  }
+};
+
+// PAGINATION
+exports.getPaginatedVenues = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const sortField = req.query.sort || "createdAt";
+    const sortOrder = req.query.order === "asc" ? 1 : -1;
+
+    const venues = await Venue.find()
+      .sort({ [sortField]: sortOrder })
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    const total = await Venue.countDocuments();
+    res.status(200).json({ total, page, limit, venues });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Pagination failed", error: error.message });
+  }
+};
