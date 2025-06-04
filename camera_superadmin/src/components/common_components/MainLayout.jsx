@@ -59,6 +59,9 @@ import AddVenue from "../../pages/venue_pages/AddVenue";
 import AllVenues from "../../pages/venue_pages/AllVenues";
 import SingleVenue from "../../pages/venue_pages/SingleVenue";
 
+// blog pages. 
+import AddBlog from "../../pages/blog_pages/AddBlog";
+
 const MainLayout = () => {
   return (
     <div className="min-h-screen text-gray-900">
@@ -577,6 +580,17 @@ const MainLayout = () => {
               <PrivateRoute allowedRoles={["superadmin"]}>
                 <PageTitle title="Single Venue">
                   <SingleVenue />
+                </PageTitle>
+              </PrivateRoute>
+            }
+          />
+          {/* blog page  */}
+                    <Route
+            path="/add-blog"
+            element={
+              <PrivateRoute allowedRoles={["superadmin"]}>
+                <PageTitle title="Add Blog">
+                  <AddBlog />
                 </PageTitle>
               </PrivateRoute>
             }
