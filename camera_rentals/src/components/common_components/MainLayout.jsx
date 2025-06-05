@@ -22,6 +22,7 @@ import TopProgressBar from "./TopProgressBar";
 // blog routes. 
 import AllBlogs from "../../pages/blog_pages/AllBlogs";
 import SingleBlog from "../../pages/blog_pages/SingleBlog";
+import Collection from "../../pages/common_pages/Collection";
 
 const MainLayout = () => {
   return (
@@ -71,6 +72,15 @@ const MainLayout = () => {
                     element={
                        <PageTitle title="Single Blog">
                       <SingleBlog />
+                    </PageTitle>
+                     }
+                     />
+
+                                      <Route
+                    path="/collection"
+                    element={
+                       <PageTitle title="Collection">
+                      <Collection />
                     </PageTitle>
                      }
                      />
