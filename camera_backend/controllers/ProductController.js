@@ -172,10 +172,13 @@ exports.createProduct = async (req, res) => {
 
 exports.getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find({ isDeleted: false })
+    const products = await Product.find({
+      $or: [{ isDeleted: false }, { isDeleted: { $exists: false } }],
+    })
       .populate("category")
       .populate("subcategory")
       .populate("vendor");
+
     res.status(200).json(products);
   } catch (error) {
     console.error("Get All Products Error:", error);

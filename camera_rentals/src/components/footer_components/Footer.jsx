@@ -1,31 +1,37 @@
-// Footer.jsx
 import React from "react";
 import { FaFacebookF, FaTwitter, FaGithub, FaLinkedinIn } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-100 text-gray-900 pt-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer className="text-gray-900 pt-12 px-4 sm:px-8 md:px-12">
+      <div className="max-w-9xl mx-auto">
         {/* Top Section */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 mb-12">
           {/* Company Info */}
           <div>
-            <h3 className="text-gray-900 text-lg font-semibold mb-4">
-              Company
-            </h3>
+            <h3 className="text-red-700 text-lg font-bold mb-4">Company</h3>
             <ul className="space-y-2">
               <li>
-                <a href="/about-us" className="hover:text-white transition">
+                <a
+                  href="/about-us"
+                  className="text-gray-700 hover:text-gray-900 font-base text-sm"
+                >
                   About Us
                 </a>
               </li>
               <li>
-                <a href="/contact-us" className="hover:text-white transition">
+                <a
+                  href="/contact-us"
+                  className="text-gray-700 hover:text-gray-900 font-base text-sm"
+                >
                   Contact Us
                 </a>
               </li>
               <li>
-                <a href="/careers" className="hover:text-white transition">
+                <a
+                  href="/careers"
+                  className="text-gray-700 hover:text-gray-900 font-base text-sm"
+                >
                   Careers
                 </a>
               </li>
@@ -34,19 +40,20 @@ const Footer = () => {
 
           {/* Support */}
           <div>
-            <h3 className="text-gray-900 text-lg font-semibold mb-4">
-              Support
-            </h3>
+            <h3 className="text-red-700 text-sm font-bold mb-4">Support</h3>
             <ul className="space-y-2">
               <li>
-                <a href="/help-center" className="hover:text-white transition">
+                <a
+                  href="/help-center"
+                  className="text-gray-700 hover:text-gray-900 font-base text-sm"
+                >
                   Help Center
                 </a>
               </li>
               <li>
                 <a
                   href="/privacy-policy"
-                  className="hover:text-white transition"
+                  className="text-gray-700 hover:text-gray-900 font-base text-sm"
                 >
                   Privacy Policy
                 </a>
@@ -54,7 +61,7 @@ const Footer = () => {
               <li>
                 <a
                   href="/terms-of-service"
-                  className="hover:text-white transition"
+                  className="text-gray-700 hover:text-gray-900 font-base text-sm"
                 >
                   Terms of Service
                 </a>
@@ -64,60 +71,81 @@ const Footer = () => {
 
           {/* Social Media */}
           <div>
-            <h3 className="text-gray-900 text-lg font-semibold mb-4">
-              Follow Us
-            </h3>
+            <h3 className="text-red-700 text-sm font-bold mb-4">Follow Us</h3>
             <div className="flex space-x-4">
-              <a href="#" className="hover:text-white transition">
+              <a
+                href="#"
+                className="text-gray-500 hover:text-gray-900 font-semibold"
+              >
                 <FaFacebookF />
               </a>
-              <a href="#" className="hover:text-white transition">
+              <a
+                href="#"
+                className="text-gray-500 hover:text-gray-900 font-semibold"
+              >
                 <FaTwitter />
               </a>
-              <a href="#" className="hover:text-white transition">
+              <a
+                href="#"
+                className="text-gray-500 hover:text-gray-900 font-semibold"
+              >
                 <FaGithub />
               </a>
-              <a href="#" className="hover:text-white transition">
+              <a
+                href="#"
+                className="text-gray-500 hover:text-gray-900 font-semibold"
+              >
                 <FaLinkedinIn />
               </a>
             </div>
           </div>
+
+          {/* Address */}
           <div>
-            <h3 className="text-gray-900 text-lg font-semibold mb-4">
-              Address
-            </h3>
-            <ul className="space-y-2">
-              <li>
-                <a href="#" className="hover:text-white transition">
-                  CAMERA RENTALS
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-white transition">
-                  2nd Cross, 3rd Main, Hesaraghatta Road,
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-white transition">
-                  Bangalore -560057
-                </a>
-              </li>
-            </ul>
+            <h3 className="text-red-700 text-sm font-bold mb-4">Address</h3>
+            <p className="text-gray-700 mb-2 font-base text-sm">
+              Camera Rentals, Hesaraghatta Road, T-Dasarahalli, Bangalore
+              560073.
+            </p>
+            <p className="text-gray-700 mb-1 font-base text-sm">
+              Phone: 9538596766
+            </p>
+            <p className="text-gray-700 font-base text-sm">
+              Website: www.camerarentals.com
+            </p>
           </div>
 
           {/* Subscription Form */}
-          {/* <div>
-            <h3 className="text-white text-lg font-semibold mb-4">Subscribe</h3>
-            <SubscriptionForm />
-          </div> */}
+          <div className=" rounded-xl w-full max-w-md mx-auto">
+            <h3 className="text-red-700  text-sm font-bold mb-3 flex items-center gap-2">
+              Signup For Camera Needs
+            </h3>
+            <p className="text-sm text-gray-600 mb-4">
+              Get updates on latest camera gear, rental deals & exclusive
+              discounts.
+            </p>
+            <form className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+              <input
+                type="email"
+                name="email"
+                placeholder="Your email address"
+                className="w-full sm:flex-1 border border-gray-300 p-3 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-400 transition"
+              />
+              <input
+                type="submit"
+                value="Subscribe"
+                className="bg-gray-900 hover:bg-gray-800 text-white px-5 py-3 rounded-lg text-sm font-semibold cursor-pointer transition"
+              />
+            </form>
+          </div>
         </div>
 
         {/* Bottom Section */}
-        <div className="border-t border-gray-700 p-6 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-sm">
+        <div className="border-t border-gray-700 pt-6 pb-4 flex flex-col md:flex-row justify-between items-center text-center">
+          <p className="text-sm font-bold">
             &copy; 2025 Ecoders, Inc. All rights reserved.
           </p>
-          <p className="text-sm mt-4 md:mt-0">
+          <p className="text-sm mt-2 md:mt-0 font-bold">
             Developed And Maintained By Ecoders Bengaluru
           </p>
         </div>

@@ -32,7 +32,7 @@ const TopArrow = () => {
           <button
             onClick={scrollToTop}
             style={{
-              backgroundColor: "#ff5722",
+              backgroundColor: "#000000",
               color: "white",
               padding: "20px 12px", // 🟢 More padding vertically for pill shape
               borderRadius: "9999px", // Keeps it pill-oval shaped
@@ -42,17 +42,19 @@ const TopArrow = () => {
               transition: "all 0.3s ease-in-out",
               border: "none",
               flexDirection: "column", // Stack contents vertically
-              aspectRatio: "1 / 1",  // Forces vertical pill aspect
+              aspectRatio: "1 / 1", // Forces vertical pill aspect
             }}
-            onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.1)"}
-            onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
+            onMouseEnter={(e) =>
+              (e.currentTarget.style.transform = "scale(1.1)")
+            }
+            onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
           >
-            <FaArrowUp 
-              style={{ 
+            <FaArrowUp
+              style={{
                 animation: "pulse 2s infinite",
                 transform: "scaleY(2)", // ⬆️ Extra tall arrow
-              }} 
-              size={8} 
+              }}
+              size={8}
             />
           </button>
         </div>
