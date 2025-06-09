@@ -78,8 +78,6 @@ const MainLayout = () => {
               </PageTitle>
             }
           />
-
-<<<<<<< HEAD
           <Route
             path="/single-blog/:id"
             element={
@@ -133,29 +131,17 @@ const MainLayout = () => {
               </PageTitle>
             }
           />
+
+          <Route
+            path="/collection"
+            element={
+              <PageTitle title="Collection">
+                <Collection />
+              </PageTitle>
+            }
+          />
         </Routes>
       </main>
-=======
-                 <Route
-                    path="/single-blog/:id"
-                    element={
-                       <PageTitle title="Single Blog">
-                      <SingleBlog />
-                    </PageTitle>
-                     }
-                     />
-
-                                      <Route
-                    path="/collection"
-                    element={
-                       <PageTitle title="Collection">
-                      <Collection />
-                    </PageTitle>
-                     }
-                     />
-              </Routes>
-            </main>
->>>>>>> a0d8982705cb095346c2e45ca81d888f6efe373f
       <Footer />
     </div>
   );
