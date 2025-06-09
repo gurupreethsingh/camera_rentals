@@ -8,11 +8,18 @@ const wishlistSchema = new mongoose.Schema({
   },
   items: [
     {
-      product: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
+      product: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product",
+        required: true,
+      },
       savedForLater: { type: Boolean, default: false },
       addedAt: { type: Date, default: Date.now },
     },
   ],
 });
+
+// Ensure one wishlist per user
+wishlistSchema.index({ user: 1 }, { unique: true });
 
 module.exports = mongoose.model("Wishlist", wishlistSchema);

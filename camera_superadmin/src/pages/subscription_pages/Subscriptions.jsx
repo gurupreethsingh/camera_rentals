@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import globalBackendRoute from "../../config/Config";
 
 const Subscriptions = () => {
   const [subscriptions, setSubscriptions] = useState([]);
@@ -8,7 +9,7 @@ const Subscriptions = () => {
     const fetchSubscriptions = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3006/api/all-subscriptions"
+          `${globalBackendRoute}/api/all-subscriptions`
         );
         setSubscriptions(response.data);
       } catch (error) {
@@ -29,7 +30,7 @@ const Subscriptions = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:3006/api/${isActive ? "unsubscribe" : "resubscribe"}`,
+        `${globalBackendRoute}/api/${isActive ? "unsubscribe" : "resubscribe"}`,
         { email }
       );
 

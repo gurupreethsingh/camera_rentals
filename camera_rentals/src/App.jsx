@@ -8,15 +8,21 @@ import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter as Router } from "react-router-dom";
 import TopArrow from "./components/common_components/TopArrow";
 import TopProgressBar from "./components/common_components/TopProgressBar";
+import { CartProvider } from "./components/cart_components/CartContext"; // ✅ Import here!
+import { WishlistProvider } from "./components/wishlist_components/WishlistContext";
 
 function App() {
   return (
     <>
       <AuthProvider>
-        <Router>
-            <MainLayout />
-          <TopArrow />         {/* Global Fixed */}
-        </Router>
+        <CartProvider>
+          <WishlistProvider>
+            <Router>
+              <MainLayout />
+              <TopArrow /> {/* Global Fixed */}
+            </Router>
+          </WishlistProvider>
+        </CartProvider>
       </AuthProvider>
 
       <ToastContainer position="top-right" />

@@ -58,9 +58,10 @@ import UpdateRentDetails from "../../pages/renting_pages/UpdateRentDetails";
 import AddVenue from "../../pages/venue_pages/AddVenue";
 import AllVenues from "../../pages/venue_pages/AllVenues";
 import SingleVenue from "../../pages/venue_pages/SingleVenue";
-
-// blog pages. 
+// blog pages.
 import AddBlog from "../../pages/blog_pages/AddBlog";
+// subscription pages.
+import Subscriptions from "../../pages/subscription_pages/Subscriptions";
 
 const MainLayout = () => {
   return (
@@ -585,12 +586,24 @@ const MainLayout = () => {
             }
           />
           {/* blog page  */}
-                    <Route
+          <Route
             path="/add-blog"
             element={
               <PrivateRoute allowedRoles={["superadmin"]}>
                 <PageTitle title="Add Blog">
                   <AddBlog />
+                </PageTitle>
+              </PrivateRoute>
+            }
+          />
+
+          {/* Subscription page  */}
+          <Route
+            path="/subscriptions"
+            element={
+              <PrivateRoute allowedRoles={["superadmin"]}>
+                <PageTitle title="All Subscriptions">
+                  <Subscriptions />
                 </PageTitle>
               </PrivateRoute>
             }

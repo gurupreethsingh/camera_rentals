@@ -676,6 +676,11 @@ const SuperadminDashboard = () => {
                   path: `/profile/${userId}`,
                 },
                 {
+                  label: "Add Blog",
+                  icon: <FaPlus className="text-teal-600" />,
+                  path: "/add-blog",
+                },
+                {
                   label: "Add Category",
                   icon: <FaPlus className="text-orange-400" />,
                   path: "/add-category",

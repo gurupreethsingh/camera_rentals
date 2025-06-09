@@ -293,6 +293,9 @@ export default function Header() {
           <a href="/all-blogs" className="text-sm font-semibold">
             Blogs
           </a>
+          <a href="/contact-us" className="text-sm font-semibold">
+            Contact Us
+          </a>
         </PopoverGroup>
 
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
@@ -356,6 +359,12 @@ export default function Header() {
                 className="block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50"
               >
                 Blog
+              </a>
+              <a
+                href="/contact-us"
+                className="block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50"
+              >
+                Contact Us
               </a>
             </div>
             <div className="py-6">
