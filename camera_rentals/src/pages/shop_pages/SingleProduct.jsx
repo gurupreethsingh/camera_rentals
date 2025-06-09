@@ -819,7 +819,7 @@ const SingleProduct = () => {
           <h1 className="text-2xl md:text-3xl font-bold">
             {product.product_name}
           </h1>
-          <div className="flex items-center gap-2 text-red-500 text-sm">
+          <div className="flex items-center gap-2 text-red-600 text-sm">
             {[...Array(5)].map((_, idx) => (
               <FaStar key={idx} />
             ))}
@@ -830,14 +830,17 @@ const SingleProduct = () => {
           <p className="text-gray-600 text-sm leading-relaxed">
             {product.description}
           </p>
-          <button
-            className="mt-4 bg-black text-white px-5 py-2 rounded hover:opacity-90"
-            onClick={() => addToCart(product)}
-          >
-            Add to Cart
-          </button>
-          <div className="text-3xl font-bold text-red-600 mt-2">
-            ₹{product.selling_price}
+
+          <div className="flex items-center ">
+            <button
+              className="mt-4 bg-black text-white px-5 py-2 rounded hover:opacity-90"
+              onClick={() => addToCart(product)}
+            >
+              Add to Cart
+            </button>
+            <div className="text-3xl font-bold text-red-600 ms-2">
+              ₹{product.selling_price}
+            </div>
           </div>
 
           {/* Rent Details */}
