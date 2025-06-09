@@ -24,6 +24,7 @@ import ContactUs from "../../pages/contact_pages/ContactUs";
 // blog routes.
 import AllBlogs from "../../pages/blog_pages/AllBlogs";
 import SingleBlog from "../../pages/blog_pages/SingleBlog";
+import Collection from "../../pages/common_pages/Collection";
 
 // shop pages
 import Shop from "../../pages/shop_pages/Shop";
@@ -78,6 +79,7 @@ const MainLayout = () => {
             }
           />
 
+<<<<<<< HEAD
           <Route
             path="/single-blog/:id"
             element={
@@ -133,6 +135,27 @@ const MainLayout = () => {
           />
         </Routes>
       </main>
+=======
+                 <Route
+                    path="/single-blog/:id"
+                    element={
+                       <PageTitle title="Single Blog">
+                      <SingleBlog />
+                    </PageTitle>
+                     }
+                     />
+
+                                      <Route
+                    path="/collection"
+                    element={
+                       <PageTitle title="Collection">
+                      <Collection />
+                    </PageTitle>
+                     }
+                     />
+              </Routes>
+            </main>
+>>>>>>> a0d8982705cb095346c2e45ca81d888f6efe373f
       <Footer />
     </div>
   );
