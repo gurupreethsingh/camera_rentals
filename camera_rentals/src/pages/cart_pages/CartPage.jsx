@@ -10,6 +10,7 @@ import {
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import globalBackendRoute from "../../config/Config";
+import one from "../../assets/images_and_videos/2.jpg";
 
 const CartPage = () => {
   const navigate = useNavigate();
@@ -49,9 +50,25 @@ const CartPage = () => {
   );
 
   return (
-    <div className="py-8 px-4 animate-fadeIn max-w-5xl mx-auto">
+    <div>
+            <div className="relative w-full h-[160px] sm:h-[200px] md:h-[260px] overflow-hidden shadow-none pt-16 sm:pt-20 md:pt-24">
+              <img
+                src={one}
+                alt="Camera Blog Banner"
+                className="absolute inset-0 w-full h-full object-cover"
+                loading="eager"
+                decoding="async"
+              />
+              <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center px-2">
+                <h1 className="text-white text-base sm:text-xl md:text-3xl font-bold text-center leading-snug tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">
+                  Your Shopping Cart Is Ready,
+                  <br className="sm:hidden" /> 
+                </h1>
+              </div>
+            </div>
+       <div className="py-8 px-4 animate-fadeIn max-w-5xl mx-auto">
       <h1 className="text-3xl font-bold text-gray-800 flex items-center gap-3 mb-6">
-        <FaShoppingCart className="text-orange-500" />
+        <FaShoppingCart className="text-red-600" />
         Your Cart
       </h1>
 
@@ -93,7 +110,7 @@ const CartPage = () => {
                 <img
                   src={getImageUrl(item.product_image)}
                   alt={item.product_name}
-                  className="w-24 h-24 object-cover rounded-lg border"
+                  className="w-28 h-28 object-cover rounded-lg"
                   onError={(e) => {
                     e.target.onerror = null;
                     e.target.src = "https://via.placeholder.com/150";
@@ -103,7 +120,7 @@ const CartPage = () => {
                   <h2 className="text-lg font-semibold text-gray-800">
                     {item.product_name}
                   </h2>
-                  <p className="text-green-600 font-semibold flex items-center gap-1">
+                  <p className="text-gray-700 font-semibold flex items-center gap-1">
                     <FaRupeeSign /> {item.selling_price}
                   </p>
                 </div>
@@ -128,7 +145,7 @@ const CartPage = () => {
 
               {/* Total + Remove */}
               <div className="flex items-center gap-5">
-                <span className="text-xl font-bold text-green-700 flex items-center">
+                <span className="text-xl font-bold text-gray-900 flex items-center">
                   <FaRupeeSign /> {item.selling_price * item.quantity}
                 </span>
                 <button
@@ -150,12 +167,12 @@ const CartPage = () => {
             <h2 className="text-xl font-bold mb-2 text-gray-800">
               Total Amount
             </h2>
-            <p className="text-2xl text-green-600 font-extrabold flex justify-center items-center gap-1 mb-4">
+            <p className="text-2xl text-gray-900 font-extrabold flex justify-center items-center gap-1 mb-4">
               <FaRupeeSign /> {totalAmount.toFixed(2)}
             </p>
             <button
               onClick={() => navigate("/checkout")}
-              className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-red-500 to-orange-500 text-white rounded-full font-bold text-lg hover:opacity-90 transition"
+              className="w-full sm:w-auto px-8 py-3 bg-gray-900 text-white rounded font-bold text-lg hover:opacity-90 transition"
             >
               Proceed to Checkout
             </button>
@@ -163,6 +180,8 @@ const CartPage = () => {
         </div>
       )}
     </div>
+    </div>
+   
   );
 };
 
