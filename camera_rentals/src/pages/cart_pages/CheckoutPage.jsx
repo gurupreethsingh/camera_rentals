@@ -17,6 +17,7 @@ import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import globalBackendRoute from "../../config/Config";
 import axios from "axios";
+import one from "../../assets/images_and_videos/2.jpg";
 
 const CheckoutPage = () => {
   const { cartItems, clearCart } = useContext(CartContext);
@@ -110,9 +111,12 @@ const CheckoutPage = () => {
     };
 
     return (
-      <div className="bg-white p-6 rounded-2xl shadow-md border border-gray-200 space-y-4">
+
+      
+
+                <div className="bg-white p-6 rounded-2xl shadow-md border border-gray-200 space-y-4">
         <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-          <FaMapMarkerAlt className="text-orange-500" />
+          <FaMapMarkerAlt className="text-red-600" />
           {title}
         </h2>
         {Object.entries(iconMap).map(([key, [Icon, color, placeholder]]) => (
@@ -146,6 +150,8 @@ const CheckoutPage = () => {
           Set as default
         </label>
       </div>
+
+    
     );
   };
 
@@ -221,9 +227,26 @@ const CheckoutPage = () => {
   };
 
   return (
-    <div className="py-10 px-4 animate-fadeIn font-sans">
+    <div>
+              <div className="relative w-full h-[160px] sm:h-[200px] md:h-[260px] overflow-hidden shadow-none pt-16 sm:pt-20 md:pt-24">
+                <img
+                  src={one}
+                  alt="Camera Blog Banner"
+                  className="absolute inset-0 w-full h-full object-cover"
+                  loading="eager"
+                  decoding="async"
+                />
+                <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center px-2">
+                  <h1 className="text-white text-base sm:text-xl md:text-3xl font-bold text-center leading-snug tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">
+                    Checkout, Please give the Billing Address
+                    <br className="sm:hidden" /> and Shipping Address to Confirm Order
+                  </h1>
+                </div>
+              </div>
+
+                <div className="py-10 px-4 animate-fadeIn font-sans container mx-auto">
       <h1 className="text-4xl font-extrabold text-gray-900 mb-10 flex items-center gap-3">
-        <FaMoneyBillWave className="text-orange-500" /> Checkout
+        <FaMoneyBillWave className="text-red-600" /> Checkout
       </h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
@@ -279,7 +302,7 @@ const CheckoutPage = () => {
 
           <button
             onClick={handlePlaceOrder}
-            className="w-full py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white font-semibold rounded-full hover:opacity-90 transition text-lg"
+            className="w-full py-3 bg-gray-900 text-white font-semibold rounded hover:opacity-90 transition text-lg"
           >
             Place Order
           </button>
@@ -293,6 +316,7 @@ const CheckoutPage = () => {
           </button>
         </Link>
       </div>
+    </div>
     </div>
   );
 };

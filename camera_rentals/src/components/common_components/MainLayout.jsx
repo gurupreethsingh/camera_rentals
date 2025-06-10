@@ -35,6 +35,9 @@ import Wishlist from "../../pages/wishlist_pages/Wishlist";
 
 // cart page
 import Cart from "../../pages/cart_pages/CartPage";
+import CheckoutPage from "../../pages/cart_pages/CheckoutPage";
+import MyOrders from "../../pages/orders_page/MyOrders";
+import ThankYou from "../../pages/orders_page/ThankYou";
 
 const MainLayout = () => {
   return (
@@ -137,6 +140,32 @@ const MainLayout = () => {
             element={
               <PageTitle title="Collection">
                 <Collection />
+              </PageTitle>
+            }
+          />
+
+          <Route
+            path="/checkout"
+            element={
+              <PageTitle title="Checkout">
+                <CheckoutPage />
+              </PageTitle>
+            }
+          />
+          <Route
+            path="/my-orders"
+            element={
+              <PageTitle title="My Orders">
+                <MyOrders />
+              </PageTitle>
+            }
+          />
+
+          <Route
+            path="/thankyou"
+            element={
+              <PageTitle title="Thank You">
+                <ThankYou />
               </PageTitle>
             }
           />
